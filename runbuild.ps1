@@ -2,7 +2,7 @@
 
 
 # Local Variables
-$MsBuild = $env:systemroot + "\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
+$MsBuild = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
 $SlnFilePath = "ContinuousDelivery.sln"
  
 $BuildArgs = @{
