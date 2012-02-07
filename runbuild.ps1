@@ -12,3 +12,4 @@ $BuildArgs = @{
  
 # Start the build
 Start-Process @BuildArgs
+
