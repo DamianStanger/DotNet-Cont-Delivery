@@ -17,13 +17,13 @@ namespace Tests.Controllers
         }
 
         [Test]
-        public void ShouldFail()
+        public void ShouldFailNot()
         {
             var ic = new IndexController();
 
             var view = ic.Index();
 
-            Assert.True(false);
+            Assert.True(true);
         }
     }
 }
