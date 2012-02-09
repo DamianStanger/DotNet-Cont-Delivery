@@ -9,10 +9,15 @@ namespace ContinuousDelivery.Controllers
     public class IndexController : Controller
     {
 
-        public ActionResult Index()
+        public ViewResult Index()
         {
-            return View();
+            return View("Index", 0);
         }
 
+        public ViewResult StringAdd(string values)
+        {
+            int result = 0;
+            return View("Index", result);
+        }
     }
 }

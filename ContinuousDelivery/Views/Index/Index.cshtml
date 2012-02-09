@@ -1,5 +1,17 @@
-﻿@{
+﻿@model int
+
+@{
     ViewBag.Title = "Index";
 }
 
 <h2>Hello Delivery</h2>
+
+<p>
+    @using(Html.BeginForm("stringAdd", "index", FormMethod.Post))
+    {
+        @Html.TextBox("values")
+        <input type="submit" />
+    }
+</p>
+
+<p>The last addition resulted in value: @Model</p>
