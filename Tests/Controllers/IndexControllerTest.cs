@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Web.Mvc;
+using NUnit.Framework;
 using ContinuousDelivery.Controllers;
 
 namespace Tests.Controllers
@@ -7,23 +8,23 @@ namespace Tests.Controllers
     public class IndexControllerTest
     {
         [Test]
-        public void ShouldReturnTrue()
+        public void ShouldReturnTheIndexView()
         {
             var ic = new IndexController();
 
-            var view = ic.Index();
+            var view = (ViewResult) ic.Index();
 
-            Assert.True(true);
+            Assert.That(view.ViewName, Is.EqualTo("Index"));
         }
 
         [Test]
-        public void ShouldFailNot()
+        public void ShouldFail()
         {
             var ic = new IndexController();
 
             var view = ic.Index();
 
-            Assert.True(true);
+            Assert.True(false);
         }
     }
 }
