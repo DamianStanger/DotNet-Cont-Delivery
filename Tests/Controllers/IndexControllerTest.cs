@@ -37,5 +37,23 @@ namespace Tests.Controllers
             view = ic.StringAdd("");
             Assert.That(view.Model, Is.EqualTo(0));
         }
+
+        [Test]
+        public void GivenOneNumberReturnThatNumber()
+        {
+            var ic = new IndexController();
+
+            var view = ic.StringAdd("7");
+            Assert.That(view.Model, Is.EqualTo(7));
+        }
+
+        [Test]
+        public void twoCommaSeparatedNumbersAddUp()
+        {
+            var ic = new IndexController();
+
+            var view = ic.StringAdd("5,3");
+            Assert.That(view.Model, Is.EqualTo(8));
+        }
     }
 }
