@@ -4,3 +4,4 @@ _Resharper*
 *.user
 *\build/
 *\assets/
+website/
