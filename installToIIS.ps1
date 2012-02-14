@@ -1,5 +1,4 @@
 #Set-StrictMode -Version 2
-
 # run this first -   Set-ExecutionPolicy RemoteSigned
 
 import-module WebAdministration
@@ -19,6 +18,8 @@ Set-ItemProperty IIS:\Sites\ContinuousDelivery -name applicationPool -value Cont
 
 Start-Sleep -s 2
 $webclient = New-Object Net.WebClient
-$webclient.DownloadString("http://continuousdelivery")
+$html = $webclient.DownloadString("http://continuousdelivery")
+$result = $html.Contains('Hello Delivery')
 
-#$result = $webclient.DownloadString("http://continuousdelivery").IndexOf('<meta name="ContinuousDelivery" />')
+ if ($result) {Write-Host "success"}
+ else {Write-Host "##teamcity[buildStatus status='FAILURE' text='Some error message']"}
