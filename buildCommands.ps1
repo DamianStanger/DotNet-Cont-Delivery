@@ -7,7 +7,7 @@ $nunitConsole = "libs\NUnit-2.6.0.12035\bin\nunit-console.exe"
 
 $SlnFile = "ContinuousDelivery.sln";
 $testDll = "tests/build/tests.dll"
-
+$websiteAbsolutePath = "C:\_projects\visualStudio\ContinuousDelivery\website"
 
 
 
@@ -68,7 +68,7 @@ function install-iis()
 
   New-Item IIS:\AppPools\ContinuousDeliveryAppPool
   Set-ItemProperty IIS:\AppPools\ContinuousDeliveryAppPool -Name managedRuntimeVersion -Value "v4.0"
-  New-Item iis:\Sites\ContinuousDelivery -bindings @{protocol="http";bindingInformation=":80:ContinuousDelivery"} -physicalPath C:\_projects\visualStudio\ContinuousDelivery\website
+  New-Item iis:\Sites\ContinuousDelivery -bindings @{protocol="http";bindingInformation=":80:ContinuousDelivery"} -physicalPath $websiteAbsolutePath
   Set-ItemProperty IIS:\Sites\ContinuousDelivery -name applicationPool -value ContinuousDeliveryAppPool
 
   Start-Sleep -s 2
@@ -79,3 +79,4 @@ function install-iis()
    if ($result) {Write-Host "success"}
    else {Write-Host "##teamcity[buildStatus status='FAILURE' text='Some error message']"}
 }
+

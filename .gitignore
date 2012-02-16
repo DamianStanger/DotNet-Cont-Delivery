@@ -5,3 +5,4 @@ _Resharper*
 *\build/
 *\assets/
 website/
+TestResult.xml
