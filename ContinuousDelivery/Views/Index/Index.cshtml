@@ -1,8 +1,6 @@
-﻿@model IndexViewModel
+﻿@model ContinuousDelivery.ViewModels.IndexViewModel
 
-@{
-    ViewBag.Title = "Index";
-}
+@{ViewBag.Title = "Index";}
 
 <h2>Hello Delivery</h2>
 
@@ -14,9 +12,9 @@
     }
 </p>
  
-@if (Model.Exception != null){
+@if (@Model.Exception == null){
     <p>The last addition resulted in value: @Model.Result</p>
 }
-@else{
-    <p>@Model.Exception</p>
+else{
+    <p>@Model.Exception.Message</p>
 }

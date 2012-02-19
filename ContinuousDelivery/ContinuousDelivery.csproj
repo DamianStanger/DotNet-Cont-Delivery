@@ -67,7 +67,7 @@
     <Compile Include="Controllers\IndexController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\ViewException.cs" />
+    <Compile Include="Models\IndexViewException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
