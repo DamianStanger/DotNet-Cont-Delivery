@@ -23,14 +23,14 @@ namespace ContinuousDelivery.Controllers
 
         public ViewResult StringAdd(string values)
         {
-            ViewException returnedException = null;
+            IndexViewException returnedException = null;
 
             int result = 0;
             try
             {
                 result = stringCalculator.PerformAddition(values);
             }
-            catch (ViewException e)
+            catch (IndexViewException e)
             {
                 returnedException = e;
             }

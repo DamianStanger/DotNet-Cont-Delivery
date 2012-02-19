@@ -24,7 +24,7 @@ namespace ContinuousDelivery.Services
             if (negatives.Count()>0)
             {
                 string exceptionText = "Negative numbers are not permitted: " + string.Join(", ", negatives);
-                throw new ViewException(exceptionText);
+                throw new IndexViewException(exceptionText);
             }
             return individualValues.Sum();
         }
