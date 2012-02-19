@@ -1,4 +1,4 @@
-Set-StrictMode -Version 1
+Set-StrictMode -Version 2.0
 # run this first -   Set-ExecutionPolicy RemoteSigned
 
 
@@ -7,7 +7,8 @@ $nunitConsole = "libs\NUnit-2.6.0.12035\bin\nunit-console.exe"
 
 $SlnFile = "ContinuousDelivery.sln";
 $testDll = "tests/build/tests.dll"
-$websiteAbsolutePath = "C:\_projects\visualStudio\ContinuousDelivery\website"
+$workingDirectory = "C:\_projects\visualStudio\ContinuousDelivery"
+$websiteAbsolutePath = $workingDirectory + "\website"
 
 
 
@@ -20,8 +21,15 @@ function execute-build()
    ArgumentList = $SlnFile, "/target:Clean", "/target:Build", "/property:OutDir=build\";
   }
    
-  Start-Process @BuildArgs -NoNewWindow -Wait;
+  $result = Start-Process @BuildArgs -NoNewWindow -Wait;
   # Start-Process @BuildArgs -NoNewWindow
+  
+  if($result) { Write-Host "Build success"}
+  else {
+    Write-Host "##teamcity[buildStatus status='FAILURE' text='Some error message']"
+    return false
+  }
+  return true
 }
 
 function run-tests()
@@ -76,7 +84,10 @@ function install-iis()
   $html = $webclient.DownloadString("http://continuousdelivery")
   $result = $html.Contains('Hello Delivery')
 
-   if ($result) {Write-Host "success"}
-   else {Write-Host "##teamcity[buildStatus status='FAILURE' text='Some error message']"}
+  if ($result) {Write-Host "success"}
+  else {
+    Write-Host "##teamcity[buildStatus status='FAILURE' text='Some error message']"
+    return false
+  }
+  return true
 }
-

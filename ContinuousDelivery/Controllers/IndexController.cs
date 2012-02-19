@@ -1,34 +1,42 @@
 ﻿using System.Web.Mvc;
+using ContinuousDelivery.Models;
+using ContinuousDelivery.Services;
+using ContinuousDelivery.ViewModels;
 
 namespace ContinuousDelivery.Controllers
 {
     public class IndexController : Controller
     {
+        private StringCalculator stringCalculator;
+
+        public IndexController(StringCalculator stringCalculator)
+        {
+            this.stringCalculator = stringCalculator;
+        }
+
+        public IndexController() : this(new StringCalculator()){}
 
         public ViewResult Index()
         {
-            return View("Index", 0);
+            return View("Index", new IndexViewModel());
         }
 
         public ViewResult StringAdd(string values)
         {
-            int result = 0;
+            ViewException returnedException = null;
 
-            if (!string.IsNullOrEmpty(values))
+            int result = 0;
+            try
             {
-                string[] individualValues = values.Split(',');
-                foreach (var value in individualValues)
-                {
-                    int tmp;
-                    bool valuesContainsAnInteger = int.TryParse(value, out tmp);
-                    if (valuesContainsAnInteger)
-                    {
-                        result += tmp;
-                    }
-                }
+                result = stringCalculator.PerformAddition(values);
+            }
+            catch (ViewException e)
+            {
+                returnedException = e;
             }
 
-            return View("Index", result);
+            var indexViewmodel = new IndexViewModel(result, returnedException);
+            return View("Index", indexViewmodel);
         }
     }
 }

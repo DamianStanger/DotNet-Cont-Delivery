@@ -1,4 +1,4 @@
-﻿@model int
+﻿@model IndexViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -9,9 +9,14 @@
 <p>
     @using(Html.BeginForm("stringAdd", "index", FormMethod.Post))
     {
-        @Html.TextBox("values")
+        @Html.TextArea("values")
         <input type="submit" />
     }
 </p>
-
-<p>The last addition resulted in value: @Model</p>
+ 
+@if (Model.Exception != null){
+    <p>The last addition resulted in value: @Model.Result</p>
+}
+@else{
+    <p>@Model.Exception</p>
+}
