@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace ContinuousDelivery.Services
@@ -10,19 +11,13 @@ namespace ContinuousDelivery.Services
 
         public Translator(string values)
         {
-            ExtractNewDelimeter(values);
+            values = ExtractNewDelimeter(values);
             AsInts = new List<int>();
-            var stringIntegers = values.Split(defaultDelimeters.ToArray());
-            foreach (var stringInteger in stringIntegers)
-            {
-                int tmp;
-                Int32.TryParse(stringInteger, out tmp);
-                AsInts.Add(tmp);
-            }            
-
+            var stringIntegers = values.Split(defaultDelimeters.ToArray());         
+            AsInts.AddRange(stringIntegers.Select(x => int.Parse(x)));
         }
 
-        private void ExtractNewDelimeter(string values)
+        private string ExtractNewDelimeter(string values)
         {
             Regex delimeterFinder = new Regex("^//(.)");
             var match = delimeterFinder.Match(values);
@@ -30,7 +25,9 @@ namespace ContinuousDelivery.Services
             {
                 var delimeter = char.Parse(match.Groups[1].Value);
                 defaultDelimeters.Add(delimeter);
+                return values.Substring(4);
             }
+            return values;
         }
 
         public List<int> AsInts { get; private set; }
