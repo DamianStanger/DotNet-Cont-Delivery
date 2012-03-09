@@ -16,20 +16,21 @@ function execute-build()
 {
   write "++ Running Build ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
   
-  $BuildArgs = @{
-   FilePath = $MsBuild;
-   ArgumentList = $SlnFile, "/target:Clean", "/target:Build", "/property:OutDir=build\";
-  }
-   
-  $result = Start-Process @BuildArgs -NoNewWindow -Wait;
+  #$BuildArgs = @{
+  # FilePath = $MsBuild;
+  # ArgumentList = $SlnFile, "/target:Clean", "/target:Build", "/property:OutDir=build\";
+  #}
+  
+  #write $MsBuild $SlnFile, "/target:Clean", "/target:Build", "/property:OutDir=build\"
+  & $MsBuild $SlnFile, "/target:Clean", "/target:Build", "/property:OutDir=build\"
+  # Start-Process @BuildArgs -NoNewWindow -Wait;
   # Start-Process @BuildArgs -NoNewWindow
   
-  if($result) { Write-Host "Build success"}
+  if($LastExitCode -eq 0) { Write-Host "++ Build success ++" $LastExitCode}
   else {
     Write-Host "##teamcity[buildStatus status='FAILURE' text='Some error message']"
-    return false
+    throw "execute-build failed code:" + $LastExitCode
   }
-  return true
 }
 
 function run-tests()
@@ -66,9 +67,13 @@ function install-iis()
   write "++ Installing to iis ++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
   import-module WebAdministration
 
+  write "booga1"
+
   Remove-Item IIS:\Sites\ContinuousDelivery -recurse -Force
   Remove-Item IIS:\AppPools\ContinuousDeliveryAppPool -recurse -Force
   Remove-Item website -recurse -Force
+
+write "booga2"
 
   New-Item website -type Directory
 
@@ -87,7 +92,5 @@ function install-iis()
   if ($result) {Write-Host "success"}
   else {
     Write-Host "##teamcity[buildStatus status='FAILURE' text='Some error message']"
-    return false
   }
-  return true
 }
