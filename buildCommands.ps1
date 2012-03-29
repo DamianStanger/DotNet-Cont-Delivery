@@ -5,11 +5,9 @@ Set-StrictMode -Version 2.0
 $MsBuild = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe"
 $nunitConsole = "libs\NUnit-2.6.0.12035\bin\nunit-console.exe"
 
-$SlnFile = "ContinuousDelivery.sln";
+$SlnFile = "ContinuousDelivery.sln"
 $testDll = "tests/build/tests.dll"
-$workingDirectory = "C:\_projects\visualStudio\ContinuousDelivery"
-$websiteAbsolutePath = $workingDirectory + "\website"
-
+$websiteFolder = "\website"
 
 
 function execute-build()
@@ -65,6 +63,10 @@ function create-assets()
 function install-iis()
 {
   write "++ Installing to iis ++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+  $currentLocation = get-location
+  write "++ Current location is " $currentLocation.Path
+  $pathToWebsite = $currentLocation.Path + $websiteFolder
+  
   import-module WebAdministration
 
   Remove-Item IIS:\Sites\ContinuousDelivery -recurse -Force
@@ -77,7 +79,7 @@ function install-iis()
 
   New-Item IIS:\AppPools\ContinuousDeliveryAppPool
   Set-ItemProperty IIS:\AppPools\ContinuousDeliveryAppPool -Name managedRuntimeVersion -Value "v4.0"
-  New-Item iis:\Sites\ContinuousDelivery -bindings @{protocol="http";bindingInformation=":80:ContinuousDelivery"} -physicalPath $websiteAbsolutePath
+  New-Item iis:\Sites\ContinuousDelivery -bindings @{protocol="http";bindingInformation=":80:ContinuousDelivery"} -physicalPath $pathToWebsite
   Set-ItemProperty IIS:\Sites\ContinuousDelivery -name applicationPool -value ContinuousDeliveryAppPool
 
   Start-Sleep -s 2
