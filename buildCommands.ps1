@@ -79,12 +79,12 @@ function install-iis()
 
   New-Item IIS:\AppPools\ContinuousDeliveryAppPool
   Set-ItemProperty IIS:\AppPools\ContinuousDeliveryAppPool -Name managedRuntimeVersion -Value "v4.0"
-  New-Item iis:\Sites\ContinuousDelivery -bindings @{protocol="http";bindingInformation=":80:ContinuousDelivery"} -physicalPath $pathToWebsite
+  New-Item iis:\Sites\ContinuousDelivery -bindings @{protocol="http";bindingInformation=":8080:ContinuousDelivery"} -physicalPath $pathToWebsite
   Set-ItemProperty IIS:\Sites\ContinuousDelivery -name applicationPool -value ContinuousDeliveryAppPool
 
   Start-Sleep -s 2
   $webclient = New-Object Net.WebClient
-  $html = $webclient.DownloadString("http://continuousdelivery")
+  $html = $webclient.DownloadString("http://continuousdelivery:8080")
   $result = $html.Contains('Hello Delivery')
 
   if ($result) {Write-Host "success"}
