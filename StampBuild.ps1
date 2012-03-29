@@ -1,2 +1,2 @@
 . ".\buildCommands.ps1"
-stamp-build-number
+stamp-build-number $args[0]
