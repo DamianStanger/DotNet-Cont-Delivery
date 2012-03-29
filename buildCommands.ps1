@@ -67,13 +67,9 @@ function install-iis()
   write "++ Installing to iis ++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
   import-module WebAdministration
 
-  write "booga1"
-
   Remove-Item IIS:\Sites\ContinuousDelivery -recurse -Force
   Remove-Item IIS:\AppPools\ContinuousDeliveryAppPool -recurse -Force
   Remove-Item website -recurse -Force
-
-write "booga2"
 
   New-Item website -type Directory
 

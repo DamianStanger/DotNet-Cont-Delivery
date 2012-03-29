@@ -3,7 +3,7 @@
 
 execute-build
 run-tests
-stamp-build-number
+stamp-build-number aaa
 create-assets
 install-iis
 
